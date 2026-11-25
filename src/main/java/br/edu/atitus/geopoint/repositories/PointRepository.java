@@ -71,7 +71,36 @@ public class PointRepository {
         }
     }
 
-    // Exclui um ponto pelo ID
+    public PointEntity update(PointEntity point) {
+        String sql = """
+        UPDATE points
+        SET name = ?, description = ?, latitude = ?, longitude = ?
+        WHERE id = ?
+        """;
+
+        jdbcTemplate.update(
+                sql,
+                point.getName(),
+                point.getDescription(),
+                point.getLatitude(),
+                point.getLongitude(),
+                point.getId()
+        );
+        return point;
+    }
+
+    public boolean existsByNameAndIdNot(String name, UUID id) {
+        String sql = """
+        SELECT EXISTS (
+            SELECT 1 FROM points
+            WHERE name = ? AND id <> ?
+        )
+        """;
+
+        Boolean exists = jdbcTemplate.queryForObject(sql, Boolean.class, name, id);
+        return Boolean.TRUE.equals(exists);
+    }
+
     public void deleteById(UUID id) {
         String sql = """
             DELETE FROM points
