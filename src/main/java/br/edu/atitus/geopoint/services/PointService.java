@@ -1,3 +1,4 @@
+
 package br.edu.atitus.geopoint.services;
 
 import br.edu.atitus.geopoint.dtos.PointRequest;
@@ -49,5 +50,10 @@ public class PointService {
         PointEntity point = repository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Ponto não localizado com o ID: " + id));
         return point;
+    }
+
+    public void delete(UUID id) {
+        findById(id);
+        repository.deleteById(id);
     }
 }

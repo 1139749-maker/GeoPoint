@@ -1,3 +1,4 @@
+
 package br.edu.atitus.geopoint.repositories;
 
 import br.edu.atitus.geopoint.entities.PointEntity;
@@ -44,7 +45,6 @@ public class PointRepository {
                 point.getLongitude()
         );
         return point;
-
     }
 
     public List<PointEntity> findAll() {
@@ -54,7 +54,6 @@ public class PointRepository {
             ORDER BY name
             """;
         return jdbcTemplate.query(sql, rowMapper);
-
     }
 
     public Optional<PointEntity> findById(UUID id) {
@@ -69,7 +68,16 @@ public class PointRepository {
             return Optional.ofNullable(point);
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
-
         }
+    }
+
+    // Exclui um ponto pelo ID
+    public void deleteById(UUID id) {
+        String sql = """
+            DELETE FROM points
+            WHERE id = ?
+            """;
+
+        jdbcTemplate.update(sql, id);
     }
 }

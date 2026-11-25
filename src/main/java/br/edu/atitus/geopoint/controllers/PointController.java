@@ -1,3 +1,4 @@
+
 package br.edu.atitus.geopoint.controllers;
 
 import br.edu.atitus.geopoint.dtos.PointRequest;
@@ -38,6 +39,12 @@ public class PointController {
     public ResponseEntity<PointEntity> findById(@PathVariable UUID id) {
         PointEntity response = service.findById(id);
         return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable UUID id) {
+        service.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
     @ExceptionHandler(NoSuchElementException.class)
